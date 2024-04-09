@@ -16,3 +16,16 @@ class HTMLNode:
     
     def __repr__(self) -> str:
         return f"{self}: {self.tag}, {self.value}, {self.children}, {self.props}"
+    
+class LeafNode(HTMLNode):
+    def __init__(self, tag=None, value=None, props=None):
+        super().__init__(tag, value, props)
+        if self.value == None:
+            raise ValueError("Value property is required!")
+
+    def to_html(self):
+        if self.value == None:
+            raise ValueError
+        elif self.tag == None:
+            return
+            
