@@ -1,3 +1,9 @@
 from textnode import TextNode
 
-print("Hello world")
+def main():
+    textnode = TextNode("This is a textnode", "italic", "https://facebook.com")
+
+    print(textnode.repr())
+
+
+main()
