@@ -21,11 +21,13 @@ class TestLeafNode(unittest.TestCase):
         node = LeafNode(tag="a", value="This is a paragraph", props={"href":"www.boot.dev", "target":"_top"})
         self.assertEqual(node.to_html(), '<a href="www.boot.dev" target="_top">This is a paragraph</a>')
 
-
-
     def test_to_html_tag(self):
         node = LeafNode(tag=None, value="This is a paragraph", props={"href":"www.boot.dev", "target":"_top"})
         self.assertEqual(node.to_html(), ' href="www.boot.dev" target="_top" This is a paragraph')
+
+    def test_to_html2(self):
+        node = LeafNode(tag="p", value="This is a paragraph", props={"target":"_top"})
+        self.assertEqual(node.to_html(), '<p target="_top">This is a paragraph</p>')
 
     
 if __name__ == "__main__":
