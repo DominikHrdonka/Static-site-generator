@@ -42,6 +42,9 @@ class ParentNode(HTMLNode):
             def concatenate():
                 string = ""
                 for child in self.children:
-                    string += f"<{child.tag}>{child.value}</{child.tag}>"
+                    if not child.tag:
+                        string += f"{child.value}"
+                    else:
+                        string += f"<{child.tag}>{child.value}</{child.tag}>"
                 return f"<{self.tag}>{string}</{self.tag}>"
             return concatenate()
