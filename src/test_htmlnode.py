@@ -35,7 +35,7 @@ class TestLeafNode(unittest.TestCase):
 
 class TestParentNode(unittest.TestCase):
     
-    def  test_general(self):
+    def  test_without_props(self):
         node = ParentNode(
                     tag="p", children=
                     [
@@ -47,6 +47,23 @@ class TestParentNode(unittest.TestCase):
                 )
         self.assertEqual(node.to_html(), '<p><b>Bold text</b>Normal text<i>italic text</i>Normal text</p>')
     
+    def test_with_props(self):
+        node = ParentNode(
+                    tag="p", 
+                    children=
+                    [
+                        LeafNode("b", "Bold text"),
+                        LeafNode(None, "Normal text"),
+                        LeafNode("i", "italic text"),
+                        LeafNode(None, "Normal text"),
+                    ],
+                    props = {"target": "_top"}
+                )
+        self.assertEqual(node.to_html(), '<p target="_top"><b>Bold text</b>Normal text<i>italic text</i>Normal text</p>')
+
+    """
+    Testing for none, missing and empty tag property
+    """
     def test_empty_tag(self):
         node = ParentNode(
                     tag="", children=
@@ -72,7 +89,24 @@ class TestParentNode(unittest.TestCase):
                 )
         with self.assertRaises(ValueError):
             node.to_html()
-    
+
+    def test_none_tag(self):
+        node = ParentNode(
+                    tag = None,
+                    children=
+                    [
+                        LeafNode("b", "Bold text"),
+                        LeafNode(None, "Normal text"),
+                        LeafNode("i", "italic text"),
+                        LeafNode(None, "Normal text"),
+                    ],
+                )
+        with self.assertRaises(ValueError):
+            node.to_html()
+
+    """
+    Testing for none, missing and empty children property
+    """
     def test_none_children(self):
             node = ParentNode(
                     tag = "p",

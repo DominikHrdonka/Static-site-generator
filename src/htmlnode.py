@@ -10,9 +10,11 @@ class HTMLNode:
     
     def props_to_html(self):
         html_props = ""
-        for key, value in self.props.items():
-            html_props += f' {key}="{value}"'
+        if self.props:
+            for key, value in self.props.items():
+                html_props += f' {key}="{value}"'
         return html_props
+        
     
     def __repr__(self) -> str:
         return f"{self}: {self.tag}, {self.value}, {self.children}, {self.props}"
@@ -45,6 +47,7 @@ class ParentNode(HTMLNode):
                     if not child.tag:
                         string += f"{child.value}"
                     else:
-                        string += f"<{child.tag}>{child.value}</{child.tag}>"
-                return f"<{self.tag}>{string}</{self.tag}>"
+                        string += f"<{child.tag}{child.props_to_html()}>{child.value}</{child.tag}>"
+
+                return f"<{self.tag}{self.props_to_html()}>{string}</{self.tag}>"
             return concatenate()
