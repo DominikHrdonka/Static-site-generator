@@ -29,6 +29,9 @@ class TestLeafNode(unittest.TestCase):
         node = LeafNode(tag="p", value="This is a paragraph", props={"target":"_top"})
         self.assertEqual(node.to_html(), '<p target="_top">This is a paragraph</p>')
 
+    def test_value_none(self):
+        with self.assertRaises(ValueError):
+            LeafNode(tag="p", value = None, props={"target":"_top"})
     
 if __name__ == "__main__":
     unittest.main()
