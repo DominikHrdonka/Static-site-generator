@@ -47,5 +47,32 @@ class TestParentNode(unittest.TestCase):
                 )
         self.assertEqual(node.to_html(), '<p><b>Bold text</b>Normal text<i>italic text</i>Normal text</p>')
     
+    def test_empty_tag(self):
+        node = ParentNode(
+                    tag="", children=
+                    [
+                        LeafNode("b", "Bold text"),
+                        LeafNode(None, "Normal text"),
+                        LeafNode("i", "italic text"),
+                        LeafNode(None, "Normal text"),
+                    ],
+                )
+        with self.assertRaises(ValueError):
+            node.to_html()
+    
+    def test_no_tag(self):
+        node = ParentNode(
+                    children=
+                    [
+                        LeafNode("b", "Bold text"),
+                        LeafNode(None, "Normal text"),
+                        LeafNode("i", "italic text"),
+                        LeafNode(None, "Normal text"),
+                    ],
+                )
+        with self.assertRaises(ValueError):
+            node.to_html()
+        
+    
 if __name__ == "__main__":
     unittest.main()
