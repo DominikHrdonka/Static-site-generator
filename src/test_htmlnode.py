@@ -72,6 +72,29 @@ class TestParentNode(unittest.TestCase):
                 )
         with self.assertRaises(ValueError):
             node.to_html()
+    
+    def test_none_children(self):
+            node = ParentNode(
+                    tag = "p",
+                    children=None
+                )
+            with self.assertRaises(ValueError):
+                node.to_html()
+    
+    def test_empty_children(self):
+            node = ParentNode(
+                    tag = "p",
+                    children=[]
+                )
+            with self.assertRaises(ValueError):
+                node.to_html()
+    
+    def test_missing_children(self):
+        with self.assertRaises(TypeError):
+            node = ParentNode(
+                tag = "p"
+            )
+            
         
     
 if __name__ == "__main__":
