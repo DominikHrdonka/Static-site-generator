@@ -41,13 +41,15 @@ class ParentNode(HTMLNode):
         elif not self.children:
             raise ValueError("Children attribute must be included.")
         else:
-            def concatenate():
+            def concatenate(self):
                 string = ""
                 for child in self.children:
-                    if not child.tag:
-                        string += f"{child.value}"
-                    else:
-                        string += f"<{child.tag}{child.props_to_html()}>{child.value}</{child.tag}>"
-
+                    if isinstance(child, ParentNode):
+                        concatenate(child)
+                    elif isinstance(child, LeafNode):
+                        if not child.tag:
+                            string += f"{child.value}"
+                        else:
+                            string += f"<{child.tag}{child.props_to_html()}>{child.value}</{child.tag}>"
                 return f"<{self.tag}{self.props_to_html()}>{string}</{self.tag}>"
-            return concatenate()
+            return concatenate(self)

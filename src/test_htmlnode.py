@@ -128,6 +128,24 @@ class TestParentNode(unittest.TestCase):
             node = ParentNode(
                 tag = "p"
             )
+    """
+    Test if nested nodes
+    """
+
+    def test_nested_nodes(self):
+        node = ParentNode(
+                    tag = "div",
+                    children= [
+                        ParentNode(
+                            tag="ul",
+                            children=[
+                                LeafNode(tag="b", value="Bold text"),
+                                LeafNode(tag=None, value="Normal text")
+                            ]
+                        )
+                    ]
+                )
+        self.assertEqual(node.to_html(), '<div><ul><b>Bold text</b>Normal text</ul><div>')
             
         
     
