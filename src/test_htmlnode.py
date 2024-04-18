@@ -129,9 +129,8 @@ class TestParentNode(unittest.TestCase):
                 tag = "p"
             )
     """
-    Test if nested nodes
+    Test of nested nodes
     """
-
     def test_nested_nodes(self):
         node_one = ParentNode(
                     tag = "div",
