@@ -45,11 +45,11 @@ class ParentNode(HTMLNode):
                 string = ""
                 for child in self.children:
                     if isinstance(child, ParentNode):
-                        concatenate(child)
+                        string += concatenate(child)
                     elif isinstance(child, LeafNode):
                         if not child.tag:
                             string += f"{child.value}"
                         else:
                             string += f"<{child.tag}{child.props_to_html()}>{child.value}</{child.tag}>"
                 return f"<{self.tag}{self.props_to_html()}>{string}</{self.tag}>"
-            return concatenate(self)
+        return concatenate(self)

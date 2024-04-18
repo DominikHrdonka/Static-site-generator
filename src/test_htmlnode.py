@@ -145,7 +145,7 @@ class TestParentNode(unittest.TestCase):
                         )
                     ]
                 )
-        self.assertEqual(node.to_html(), '<div><ul><b>Bold text</b>Normal text</ul><div>')
+        self.assertEqual(node.to_html(), '<div><ul><b>Bold text</b>Normal text</ul></div>')
             
         
     
