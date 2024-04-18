@@ -133,7 +133,7 @@ class TestParentNode(unittest.TestCase):
     """
 
     def test_nested_nodes(self):
-        node = ParentNode(
+        node_one = ParentNode(
                     tag = "div",
                     children= [
                         ParentNode(
@@ -145,8 +145,62 @@ class TestParentNode(unittest.TestCase):
                         )
                     ]
                 )
-        self.assertEqual(node.to_html(), '<div><ul><b>Bold text</b>Normal text</ul></div>')
-            
+
+        node_two = ParentNode(
+            tag="div",
+    props={"class": "container", "id": "main"},
+    children=[
+        ParentNode(
+            tag="header",
+            props={"class": "header"},
+            children=[
+                LeafNode(tag="h1", value="Main Title", props={"class": "title"}),
+                LeafNode(tag="h2", value="Subtitle", props={"style": "color: grey;"})
+            ]
+        ),
+        ParentNode(
+            tag="ul",
+            props={"class": "list", "id": "item-list"},
+            children=[
+                ParentNode(
+                    tag="li",
+                    props={"class": "item bold", "style": "font-weight: bold;"},
+                    children=[
+                        LeafNode(tag="b", value="Bold list item")
+                    ]
+                ),
+                ParentNode(
+                    tag="li",
+                    props={"class": "item"},
+                    children=[
+                        LeafNode(tag=None, value="Normal list item")
+                    ]
+                ),
+                ParentNode(
+                    tag="li",
+                    children=[
+                        ParentNode(
+                            tag="a",
+                            props={"href": "#"},
+                            children=[
+                                LeafNode(tag="span", value="Link with span")
+                            ]
+                        )
+                    ]
+                )
+            ]
+        ),
+        ParentNode(
+            tag="footer",
+            props={"class": "footer"},
+            children=[
+                LeafNode(tag="p", value="Copyright © 2024")
+            ]
+        )
+    ]
+        )
+        self.assertEqual(node_one.to_html(), '<div><ul><b>Bold text</b>Normal text</ul></div>')
+        self.assertEqual(node_two.to_html(), '<div class="container" id="main"><header class="header"><h1 class="title">Main Title</h1><h2 style="color: grey;">Subtitle</h2></header><ul class="list" id="item-list"><li class="item bold" style="font-weight: bold;"><b>Bold list item</b></li><li class="item">Normal list item</li><li><a href="#"><span>Link with span</span></a></li></ul><footer class="footer"><p>Copyright © 2024</p></footer></div>')    
         
     
 if __name__ == "__main__":
