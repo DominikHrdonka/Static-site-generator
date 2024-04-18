@@ -1,4 +1,12 @@
 from htmlnode import LeafNode
+
+text_type_text = "text"
+text_type_bold = "bold"
+text_type_italic = "italic"
+text_type_code = "code"
+text_type_link = "link"
+text_type_image = "image"
+
 class TextNode:
     def __init__(self, text, text_type, url=None):
         self.text = text
@@ -11,24 +19,24 @@ class TextNode:
         else:
             return False
     
-    def text_node_to_html_node(self):
-        if self.text_type == "text":
-            return LeafNode(value= self.text)
-        
-        elif self.text_type == "bold":
-            return LeafNode(tag="b", value = self.text)
-        
-        elif self.text_type == "italic":
-            return LeafNode(tag="i", value = self.text)
-        elif self.text_type == "code":
-            return LeafNode(tag="code", value = self.text)
-        elif self.text_type == "link":
-            return LeafNode(tag = "a", value=self.text, props="href")
-        elif self.text_type == "image":
-            return LeafNode(tag="img", value=None, props={"src": self.url, "alt":self.text})
+def text_node_to_html_node(text_node):
+    if text_node.text_type == text_type_text:
+        return LeafNode(value= text_node.text)
+    
+    elif text_node.text_type == text_type_bold:
+        return LeafNode(tag="b", value = text_node.text)
+    
+    elif text_node.text_type == text_type_italic:
+        return LeafNode(tag="i", value = text_node.text)
+    elif text_node.text_type == text_type_code:
+        return LeafNode(tag="code", value = text_node.text)
+    elif text_node.text_type == text_type_link:
+        return LeafNode(tag = "a", value= text_node.text, props="href")
+    elif text_node.text_type == text_type_image:
+        return LeafNode(tag="img", value=None, props={"src": text_node.url, "alt":text_node.text})
 
-        else:
-            raise Exception("Not a valid text type")
+    else:
+        raise Exception("Not a valid text type")
         
     def __repr__(self):
         return f"TextNode({self.text}, {self.text_type}, {self.url})"
