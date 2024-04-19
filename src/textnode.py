@@ -19,6 +19,9 @@ class TextNode:
         else:
             return False
     
+    def __repr__(self):
+        return f"TextNode({self.text}, {self.text_type}, {self.url})"
+    
 def text_node_to_html_node(text_node):
     if text_node.text_type == text_type_text:
         return LeafNode(value= text_node.text)
@@ -37,9 +40,24 @@ def text_node_to_html_node(text_node):
 
     else:
         raise Exception("Not a valid text type")
-        
-    def __repr__(self):
-        return f"TextNode({self.text}, {self.text_type}, {self.url})"
+    
+def split_nodes_delimiter(old_nodes, delimiter, text_type):
+    new_nodes = []
+    for oldnode in old_nodes:
+        if isinstance(oldnode, TextNode):
+            if oldnode.text_type != text_type_text:
+                new_nodes.extend(oldnode)
+            elif delimiter not in oldnode.text:
+                raise Exception("Invalid markdown syntax, delimiter not found")
+            else:
+                split_text = oldnode.text.split(delimiter)
+                return [
+                    TextNode(split_text[0], text_type_text),
+                    TextNode(split_text[1], )
+                ]
+            
+                new_nodes.extend(split_nodes_delimiter([oldnode], delimiter, text_type))
+        return new_nodes
     
 
 
