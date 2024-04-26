@@ -5,6 +5,7 @@ from textnode import (
     text_type_italic,
     text_type_code,
 )
+import re
 
 
 def split_nodes_delimiter(old_nodes, delimiter, text_type):
@@ -27,4 +28,6 @@ def split_nodes_delimiter(old_nodes, delimiter, text_type):
         new_nodes.extend(split_nodes)
     return new_nodes
 
-print(split_nodes_delimiter([TextNode("This is text with a `code block` word", text_type_text)], "`", text_type_code))
+def extract_markdown_images(text):
+    matches = re.findall(r"!\[(.*?)\]\((.*?)\)", text)
+    return matches
