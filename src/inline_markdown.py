@@ -26,3 +26,5 @@ def split_nodes_delimiter(old_nodes, delimiter, text_type):
                 split_nodes.append(TextNode(sections[i], text_type))
         new_nodes.extend(split_nodes)
     return new_nodes
+
+print(split_nodes_delimiter([TextNode("This is text with a `code block` word", text_type_text)], "`", text_type_code))

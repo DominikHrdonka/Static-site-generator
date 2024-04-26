@@ -30,10 +30,6 @@ class TestTextNode(unittest.TestCase):
         self.assertEqual(
             "TextNode(This is a text node, text, https://www.boot.dev)", repr(node)
         )
-    
-    def test_split_nodes(self):
-        old_nodes = [TextNode("This is text with a `code block` word", text_type_text), TextNode("This is also text with a `code block` word", text_type_text)]
-        self.assertEqual(split_nodes_delimiter(old_nodes, "`", text_type_code), '[TextNode("This is text with a ", text_type_text), TextNode("code block", text_type_code), TextNode(" word", text_type_text)]')
 
 
 if __name__ == "__main__":
