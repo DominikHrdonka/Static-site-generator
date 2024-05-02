@@ -56,7 +56,26 @@ class TestInlineMarkdown(unittest.TestCase):
             TextNode("This is text with an ", text_type_text),
             TextNode("image", text_type_image, "https://storage.googleapis.com/qvault-webapp-dynamic-assets/course_assets/zjjcJKZ.png")
         ]
-        print(split_nodes_image([node]))
+        self.assertEqual(split_nodes_image([node]), expected_output)
+
+    def test_split_nodes_image_complex(self):
+        node = TextNode(
+            "This is text with an ![image](https://storage.googleapis.com/qvault-webapp-dynamic-assets/course_assets/zjjcJKZ.png) and another ![second image](https://storage.googleapis.com/qvault-webapp-dynamic-assets/course_assets/3elNhQu.png)",
+            text_type_text,
+            )
+        expected_output = [
+            TextNode("This is text with an ", text_type_text),
+            TextNode(" and another ", text_type_text),
+            TextNode("image", text_type_image, "https://storage.googleapis.com/qvault-webapp-dynamic-assets/course_assets/zjjcJKZ.png"),
+            TextNode("second image", text_type_image, "https://storage.googleapis.com/qvault-webapp-dynamic-assets/course_assets/3elNhQu.png")
+            
+        ]
+        self.assertEqual(split_nodes_image([node]), expected_output)
+    
+
+
+    def test_split_nodes_image_nested(self):
+        pass
     
     
 

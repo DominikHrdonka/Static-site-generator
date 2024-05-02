@@ -41,6 +41,8 @@ def extract_markdown_links(pattern, text):
 
 def split_nodes_image(old_nodes):
     pattern = r"!\[(.*?)\]\((.*?)\)"
+    ### withouth capturing
+    pattern_split = r"!\[.*?\]\(.*?\)"
     new_nodes = []
     for old_node in old_nodes:
         if extract_markdown_images(pattern, old_node.text) is False:
@@ -49,16 +51,8 @@ def split_nodes_image(old_nodes):
         split_nodes = []
         
         image_tuples = extract_markdown_images(pattern, old_node.text)
-        ### Need to iterate over image_tuples in case there are more
-        text_sections = []
-        for tuple in image_tuples:
-            sections = old_node.text.split(f"![{tuple[0]}]({tuple[1]})", 1)
-            for section in sections:
-                if "![" in section:
-                    continue
-                else:
-                    text_sections.append(section)
-
+        text_sections = re.split(pattern_split, old_node.text)
+        
         for text_section in text_sections:
             if text_section == "":
                 continue
