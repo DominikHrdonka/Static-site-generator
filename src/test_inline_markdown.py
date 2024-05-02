@@ -72,10 +72,37 @@ class TestInlineMarkdown(unittest.TestCase):
         ]
         self.assertEqual(split_nodes_image([node]), expected_output)
     
-
-
-    def test_split_nodes_image_nested(self):
+    def test_split_nodes_image_more_complex(self):
+        node = TextNode(
+            "This is text with an ![image](https://storage.googleapis.com/qvault-webapp-dynamic-assets/course_assets/zjjcJKZ.png) and another ![second image](https://storage.googleapis.com/qvault-webapp-dynamic-assets/course_assets/3elNhQu.png) and ![third image](https://storage.googleapis.com/qvault-webapp-dynamic-assets/course_assets/3elNhQu.png)",
+            text_type_text,
+            )
+        expected_output = [
+            TextNode("This is text with an ", text_type_text),
+            TextNode(" and another ", text_type_text),
+            TextNode(" and ", text_type_text),
+            TextNode("image", text_type_image, "https://storage.googleapis.com/qvault-webapp-dynamic-assets/course_assets/zjjcJKZ.png"),
+            TextNode("second image", text_type_image, "https://storage.googleapis.com/qvault-webapp-dynamic-assets/course_assets/3elNhQu.png"),
+            TextNode("third image", text_type_image, "https://storage.googleapis.com/qvault-webapp-dynamic-assets/course_assets/3elNhQu.png")
+        ]
+        self.assertEqual(split_nodes_image([node]), expected_output)
+    
+    def test_split_nodes_image_no_image(self):
+        node = TextNode(
+            "This is text with an image",
+            text_type_text,
+            )
+        expected_output = [
+            TextNode(
+            "This is text with an image",
+            text_type_text,
+            )
+        ]
+        self.assertEqual(split_nodes_image([node]), expected_output)
+    
+    def test_split_nodes_image_empty(self):
         pass
+
     
     
 
