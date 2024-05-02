@@ -4,7 +4,8 @@ from textnode import (
     text_type_bold,
     text_type_italic,
     text_type_code,
-    text_type_image
+    text_type_image,
+    text_type_link
 )
 import re
 
@@ -45,6 +46,9 @@ def split_nodes_image(old_nodes):
     pattern_split = r"!\[.*?\]\(.*?\)"
     new_nodes = []
     for old_node in old_nodes:
+        ### Edit to handle TextNodes with empty contents
+        if old_node.text == "":
+            continue
         if extract_markdown_images(pattern, old_node.text) is False:
             new_nodes.append(old_node)
             continue
@@ -52,7 +56,7 @@ def split_nodes_image(old_nodes):
         
         image_tuples = extract_markdown_images(pattern, old_node.text)
         text_sections = re.split(pattern_split, old_node.text)
-        
+
         for text_section in text_sections:
             if text_section == "":
                 continue
@@ -65,4 +69,29 @@ def split_nodes_image(old_nodes):
     return new_nodes
 
 def split_nodes_links(old_nodes):
-    pass
+    pattern = r"\[(.*?)\]\((.*?)\)"
+    ### withouth capturing
+    pattern_split = r"\[.*?\]\(.*?\)"
+    new_nodes = []
+    for old_node in old_nodes:
+        ### Edit to handle TextNodes with empty contents
+        if old_node.text == "":
+            continue
+        if extract_markdown_links(pattern, old_node.text) is False:
+            new_nodes.append(old_node)
+            continue
+        split_nodes = []
+        
+        link_tuples = extract_markdown_links(pattern, old_node.text)
+        text_sections = re.split(pattern_split, old_node.text)
+
+        for text_section in text_sections:
+            if text_section == "":
+                continue
+            split_nodes.append(TextNode(text_section, text_type_text))
+            
+        for tuple in link_tuples:
+            split_nodes.append(TextNode(tuple[0], text_type_link, tuple[1]))
+
+        new_nodes.extend(split_nodes)
+    return new_nodes

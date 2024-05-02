@@ -4,7 +4,8 @@ from inline_markdown import (
     split_nodes_delimiter,
     extract_markdown_images,
     extract_markdown_links,
-    split_nodes_image
+    split_nodes_image,
+    split_nodes_links
 )
 
 from textnode import (
@@ -13,7 +14,8 @@ from textnode import (
     text_type_bold,
     text_type_italic,
     text_type_code,
-    text_type_image
+    text_type_image,
+    text_type_link
 )
 
 class TestInlineMarkdown(unittest.TestCase):
@@ -101,7 +103,24 @@ class TestInlineMarkdown(unittest.TestCase):
         self.assertEqual(split_nodes_image([node]), expected_output)
     
     def test_split_nodes_image_empty(self):
-        pass
+        node = TextNode(
+                "",
+                text_type_text 
+            )
+        
+        expected_output = []
+        self.assertEqual(split_nodes_image([node]), expected_output)
+
+    def test_split_nodes_links_simple(self):
+        node = TextNode(
+            "This is text with a [link](https://www.example.com)",
+            text_type_text,
+        )
+        expected_output = [
+            TextNode("This is text with a ", text_type_text),
+            TextNode("link", text_type_link, "https://www.example.com")
+        ]
+        self.assertEqual(split_nodes_links([node]), expected_output)
 
     
     
