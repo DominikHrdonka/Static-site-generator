@@ -5,7 +5,7 @@ from inline_markdown import (
     extract_markdown_images,
     extract_markdown_links,
     split_nodes_image,
-    split_nodes_links
+    split_nodes_link
 )
 
 from textnode import (
@@ -42,12 +42,12 @@ class TestInlineMarkdown(unittest.TestCase):
     def test_extract_markdown_images(self):
         text = "This is text with an ![image](https://storage.googleapis.com/qvault-webapp-dynamic-assets/course_assets/zjjcJKZ.png) and ![another](https://storage.googleapis.com/qvault-webapp-dynamic-assets/course_assets/dfsdkjfd.png)"
         expected_output = [("image", "https://storage.googleapis.com/qvault-webapp-dynamic-assets/course_assets/zjjcJKZ.png"), ("another", "https://storage.googleapis.com/qvault-webapp-dynamic-assets/course_assets/dfsdkjfd.png")]
-        self.assertEqual(extract_markdown_images(r"!\[(.*?)\]\((.*?)\)", text), expected_output)
+        self.assertEqual(extract_markdown_images(text), expected_output)
 
     def test_extract_markdown_links(self):
         text = "This is text with a [link](https://www.example.com) and [another](https://www.example.com/another)"
         expected_output = [("link", "https://www.example.com"), ("another", "https://www.example.com/another")]
-        self.assertEqual(extract_markdown_links(r"\[(.*?)\]\((.*?)\)", text), expected_output)
+        self.assertEqual(extract_markdown_links(text), expected_output)
 
     def test_split_nodes_image_simple(self):
         node = TextNode(
@@ -67,8 +67,8 @@ class TestInlineMarkdown(unittest.TestCase):
             )
         expected_output = [
             TextNode("This is text with an ", text_type_text),
-            TextNode(" and another ", text_type_text),
             TextNode("image", text_type_image, "https://storage.googleapis.com/qvault-webapp-dynamic-assets/course_assets/zjjcJKZ.png"),
+            TextNode(" and another ", text_type_text),
             TextNode("second image", text_type_image, "https://storage.googleapis.com/qvault-webapp-dynamic-assets/course_assets/3elNhQu.png")
             
         ]
@@ -81,10 +81,10 @@ class TestInlineMarkdown(unittest.TestCase):
             )
         expected_output = [
             TextNode("This is text with an ", text_type_text),
-            TextNode(" and another ", text_type_text),
-            TextNode(" and ", text_type_text),
             TextNode("image", text_type_image, "https://storage.googleapis.com/qvault-webapp-dynamic-assets/course_assets/zjjcJKZ.png"),
+            TextNode(" and another ", text_type_text),
             TextNode("second image", text_type_image, "https://storage.googleapis.com/qvault-webapp-dynamic-assets/course_assets/3elNhQu.png"),
+            TextNode(" and ", text_type_text),
             TextNode("third image", text_type_image, "https://storage.googleapis.com/qvault-webapp-dynamic-assets/course_assets/3elNhQu.png")
         ]
         self.assertEqual(split_nodes_image([node]), expected_output)
@@ -120,7 +120,7 @@ class TestInlineMarkdown(unittest.TestCase):
             TextNode("This is text with a ", text_type_text),
             TextNode("link", text_type_link, "https://www.example.com")
         ]
-        self.assertEqual(split_nodes_links([node]), expected_output)
+        self.assertEqual(split_nodes_link([node]), expected_output)
 
     def test_split_nodes_links_complex(self):
         node = TextNode(
@@ -129,11 +129,11 @@ class TestInlineMarkdown(unittest.TestCase):
         )
         expected_output = [
             TextNode("This is text with a ", text_type_text),
+             TextNode("link", text_type_link, "https://www.example.com"),
             TextNode(" and ", text_type_text),
-            TextNode("link", text_type_link, "https://www.example.com"),
             TextNode("another", text_type_link, "https://www.example.com/another")
         ]
-        self.assertEqual(split_nodes_links([node]), expected_output)
+        self.assertEqual(split_nodes_link([node]), expected_output)
 
     def test_split_nodes_links_no_link(self):
         node = TextNode(
@@ -146,7 +146,7 @@ class TestInlineMarkdown(unittest.TestCase):
             text_type_text,
             )
         ]
-        self.assertEqual(split_nodes_links([node]), expected_output)
+        self.assertEqual(split_nodes_link([node]), expected_output)
 
     def test_split_nodes_link_empty(self):
         node = TextNode(
@@ -155,7 +155,7 @@ class TestInlineMarkdown(unittest.TestCase):
             )
         
         expected_output = []
-        self.assertEqual(split_nodes_links([node]), expected_output)
+        self.assertEqual(split_nodes_link([node]), expected_output)
     
     def test_split_nodes_links_more_complex(self):
         node = TextNode(
@@ -164,13 +164,13 @@ class TestInlineMarkdown(unittest.TestCase):
             )
         expected_output = [
             TextNode("This is text with a ", text_type_text),
-            TextNode(" and another ", text_type_text),
-            TextNode(" and ", text_type_text),
             TextNode("link", text_type_link, "https://www.example.com"),
+            TextNode(" and another ", text_type_text),
             TextNode("second link", text_type_link, "https://www.example.com/second_link"),
+            TextNode(" and ", text_type_text),
             TextNode("third link", text_type_link, "https://www.example.com/third_link")
         ]
-        self.assertEqual(split_nodes_links([node]), expected_output)
+        self.assertEqual(split_nodes_link([node]), expected_output)
 
 
     
