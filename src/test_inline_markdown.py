@@ -122,6 +122,42 @@ class TestInlineMarkdown(unittest.TestCase):
         ]
         self.assertEqual(split_nodes_links([node]), expected_output)
 
+    def test_split_nodes_links_complex(self):
+        node = TextNode(
+            "This is text with a [link](https://www.example.com) and [another](https://www.example.com/another)",
+            text_type_text,
+        )
+        expected_output = [
+            TextNode("This is text with a ", text_type_text),
+            TextNode(" and ", text_type_text),
+            TextNode("link", text_type_link, "https://www.example.com"),
+            TextNode("another", text_type_link, "https://www.example.com/another")
+        ]
+        self.assertEqual(split_nodes_links([node]), expected_output)
+
+    def test_split_nodes_links_no_link(self):
+        node = TextNode(
+            "This is text with a link",
+            text_type_text,
+            )
+        expected_output = [
+            TextNode(
+            "This is text with a link",
+            text_type_text,
+            )
+        ]
+        self.assertEqual(split_nodes_image([node]), expected_output)
+
+    def test_split_nodes_link_empty(self):
+        node = TextNode(
+                "",
+                text_type_text 
+            )
+        
+        expected_output = []
+        self.assertEqual(split_nodes_image([node]), expected_output)
+
+
     
     
 
