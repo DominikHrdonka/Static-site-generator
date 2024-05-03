@@ -95,3 +95,10 @@ def split_nodes_link(old_nodes):
         if original_text != "":
             new_nodes.append(TextNode(original_text, text_type_text))
     return new_nodes
+
+def text_to_textnodes(text):
+    new_nodes = []
+    original_text_node = TextNode(text, text_type_text)
+    new_nodes.extend(split_nodes_delimiter([original_text_node], "**", text_type_bold))
+    italic_nodes = split_nodes_delimiter(new_nodes, "*", text_type_italic)
+    return italic_nodes
