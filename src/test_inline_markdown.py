@@ -191,6 +191,23 @@ class TestInlineMarkdown(unittest.TestCase):
         ]
         self.assertEqual(text_to_textnodes(text), expexted_output)
 
+    def test_text_to_textnodes_bold(self):
+        text = "This is **text** with another **bold** word and yet another **bold word**."
+        expexted_output = [
+                TextNode("This is ", text_type_text),
+                TextNode("text", text_type_bold),
+                TextNode(" with another ", text_type_text),
+                TextNode("bold", text_type_bold),
+                TextNode(" word and yet another ", text_type_text),
+                TextNode("bold word", text_type_bold),
+                TextNode(".", text_type_text),
+        ]
+        self.assertEqual(text_to_textnodes(text), expexted_output)
+    
+    def test_text_to_textnodes_empty(self):
+        text = ""
+        expected_output = []
+        self.assertEqual(text_to_textnodes(text), expected_output)
     
 
 if __name__ == "__main__":
