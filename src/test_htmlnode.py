@@ -35,7 +35,7 @@ class TestLeafNode(unittest.TestCase):
 
 class TestParentNode(unittest.TestCase):
     
-    def  test_without_props(self):
+    def test_without_props(self):
         node = ParentNode(
                     tag="p", children=
                     [

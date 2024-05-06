@@ -77,6 +77,10 @@ This is the same paragraph on a new line
     def test_block_to_block_type_un_list(self):
         block = "* This is a list line\n* This is another list line"
         self.assertEqual(block_to_block_type(block), block_type_unordered_list)
+    
+    def test_block_to_block_type_un_list_2(self):
+        block = "* This is a list line\n- This is another list line\n* This is last list line"
+        self.assertEqual(block_to_block_type(block), block_type_unordered_list)
 
     def test_block_to_block_type_or_list(self):
         block = "1. This is ordered list line\n2. This is another ordered list line\n3. This is last ordered list line"

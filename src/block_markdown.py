@@ -33,7 +33,14 @@ def block_to_block_type(block):
             num +=1
             
 
-    if block.startswith ("# ") or block.startswith ("## ") or block.startswith ("### ") or block.startswith ("#### ") or block.startswith ("##### ") or block.startswith ("###### "):
+    if (
+        block.startswith ("# ")
+        or block.startswith ("## ")
+        or block.startswith ("### ")
+        or block.startswith ("#### ")
+        or block.startswith ("##### ")
+        or block.startswith ("###### ")
+    ):
         block_type = block_type_heading
     elif block.startswith("```") and block.endswith("```"):
         block_type = block_type_code
