@@ -5,5 +5,5 @@ def markdown_to_blocks(markdown):
     for block in split_blocks:
         if block == "":
             continue
-        block_strings.append(block.strip(" "))
+        block_strings.append(block.strip())
     return block_strings
