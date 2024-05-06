@@ -1,6 +1,11 @@
 import unittest
 
-from block_markdown import markdown_to_blocks
+from block_markdown import (
+    markdown_to_blocks,
+    block_to_block_type,
+    block_type_paragraph,
+    block_type_quote
+)
 
 class TestBlockMarkdown(unittest.TestCase):
 
@@ -49,6 +54,11 @@ This is the same paragraph on a new line
 
         self.assertEqual(markdown_to_blocks(markdown), expected_output)
 
+
+
+    def test_block_to_block_type(self):
+        block = ">This is a quote line\n>This is another quote line\n>This is the last quote line"
+        self.assertEqual(block_to_block_type(block), block_type_quote)
 
 if __name__ == "__main__":
     unittest.main()
