@@ -7,7 +7,8 @@ from block_markdown import (
     block_type_quote,
     block_type_heading,
     block_type_code,
-    block_type_unordered_list
+    block_type_unordered_list,
+    block_type_ordered_list
 )
 
 class TestBlockMarkdown(unittest.TestCase):
@@ -73,7 +74,10 @@ This is the same paragraph on a new line
         block = "* This is a list line\n* This is another list line"
         self.assertEqual(block_to_block_type(block), block_type_unordered_list)
 
+    def test_block_to_block_type_or_list(self):
+        block = "1. This is ordered list line\n2. This is another ordered list line\n3. This is last ordered list line"
+        self.assertEqual(block_to_block_type(block), block_type_ordered_list)
 
-        
+
 if __name__ == "__main__":
     unittest.main()

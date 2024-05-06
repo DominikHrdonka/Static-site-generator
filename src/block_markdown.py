@@ -19,13 +19,19 @@ def block_to_block_type(block):
     block_lines = block.split("\n")
     quotes = ""
     un_list = ""
-    
+    or_list = ""
+    num = 1
+
     # Checking if all lines in a block meet the condition
     for line in block_lines:
         if line.startswith(">"):
             quotes += "y"
         elif line.startswith("* ") or line.startswith("- "):
             un_list += "y"
+        elif line.startswith(f"{num}. "):
+            or_list += "y"
+            num +=1
+            
 
     if block.startswith ("# ") or block.startswith ("## ") or block.startswith ("### ") or block.startswith ("#### ") or block.startswith ("##### ") or block.startswith ("###### "):
         block_type = block_type_heading
@@ -36,6 +42,8 @@ def block_to_block_type(block):
         block_type = block_type_quote
     elif len(un_list) == len(block_lines):
         block_type = block_type_unordered_list
+    elif len(or_list) == len(block_lines):
+        block_type = block_type_ordered_list
     else:
         block_type = block_type_paragraph
     
